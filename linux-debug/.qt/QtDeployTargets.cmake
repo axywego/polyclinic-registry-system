@@ -1,2 +1,0 @@
-set(__QT_DEPLOY_TARGET_polyclinic_registry_system_FILE /home/axypedodo/polyclinic-registry-system/linux-debug/polyclinic_registry_system)
-set(__QT_DEPLOY_TARGET_polyclinic_registry_system_TYPE EXECUTABLE)

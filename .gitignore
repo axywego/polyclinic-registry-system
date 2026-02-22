@@ -1,4 +1,5 @@
 .env
 .vscode/
 **/*build*/
+**/*debug*/
 debug-build-run.sh

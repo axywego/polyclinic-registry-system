@@ -1,7 +1,0 @@
-# ninja log v7
-1	2319	1771780264203713433	CMakeFiles/polyclinic_registry_system.dir/src/main.cpp.o	57bdbe1f33c1af4f
-2319	2453	1771780266521713631	polyclinic_registry_system	71f3a670ed97e3cf
-1	2321	1771777473790474994	CMakeFiles/polyclinic_registry_system.dir/main.cpp.o	53f24cfd6b81169c
-5	2461	1771779935459685342	CMakeFiles/polyclinic_registry_system.dir/src/core/EnvLoader.cpp.o	2dbbf8fcc17e8899
-2	2471	1771780344409720286	CMakeFiles/polyclinic_registry_system.dir/src/core/EnvLoader.cpp.o	2dbbf8fcc17e8899
-2476	2600	1771780346883720498	polyclinic_registry_system	71f3a670ed97e3cf
