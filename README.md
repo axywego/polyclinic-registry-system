@@ -1,2 +1,2 @@
-# polyclinic_registry_system
+# polyclinic-registry-system
 The information system for polyclinic registries was created as a coursework project
