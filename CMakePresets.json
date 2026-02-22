@@ -2,6 +2,23 @@
     "version": 6,
     "configurePresets": [
         {
+            "name": "linux-debug",
+            "displayName": "MinGW Debug (Linux)",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/linux-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++",
+                "CMAKE_PREFIX_PATH": "/usr"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
             "name": "msvc-debug",
             "displayName": "MSVC Debug",
             "generator": "Visual Studio 17 2022",
@@ -13,6 +30,11 @@
         }
     ],
     "buildPresets": [
+        {
+            "name": "linux-debug-build",
+            "displayName": "MinGW LInux Debug Build",
+            "configurePreset": "linux-debug"
+        },
         {
             "name": "msvc-debug",
             "displayName": "MSVC Debug Build",

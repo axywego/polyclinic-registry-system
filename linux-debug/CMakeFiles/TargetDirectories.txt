@@ -1,0 +1,7 @@
+/home/axypedodo/polyclinic-registry-system/linux-debug/CMakeFiles/polyclinic_registry_system.dir
+/home/axypedodo/polyclinic-registry-system/linux-debug/CMakeFiles/edit_cache.dir
+/home/axypedodo/polyclinic-registry-system/linux-debug/CMakeFiles/rebuild_cache.dir
+/home/axypedodo/polyclinic-registry-system/linux-debug/CMakeFiles/list_install_components.dir
+/home/axypedodo/polyclinic-registry-system/linux-debug/CMakeFiles/install.dir
+/home/axypedodo/polyclinic-registry-system/linux-debug/CMakeFiles/install/local.dir
+/home/axypedodo/polyclinic-registry-system/linux-debug/CMakeFiles/install/strip.dir

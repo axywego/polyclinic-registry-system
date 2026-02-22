@@ -1,42 +1,41 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(polyclinics_registry_system)
+project(polyclinic_registry_system)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Sql)
+set(CMAKE_SKIP_INSTALL_RPATH TRUE)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Sql)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Sql)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE 
-    Qt6::Core 
-    Qt6::Sql
+if(WIN32)
+    message(STATUS "Building for Windows (MinGW)")
+else()
+    message(STATUS "Building for Linux/Native")
+endif()
+
+add_executable(${PROJECT_NAME} src/main.cpp
+    src/core/EnvLoader.h
+    src/core/EnvLoader.cpp
 )
 
-if(WIN32 AND NOT CMAKE_CROSSCOMPILING)
-    get_target_property(_qmake_executable Qt6::qmake IMPORTED_LOCATION)
-    get_filename_component(_qt_bin_dir "${_qmake_executable}" DIRECTORY)
-    find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${_qt_bin_dir}")
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    Qt${QT_VERSION_MAJOR}::Core 
+    Qt${QT_VERSION_MAJOR}::Sql
+)
 
-    if(WINDEPLOYQT_EXECUTABLE)
-        add_custom_command(TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMAND ${WINDEPLOYQT_EXECUTABLE}
-                --debug
-                $<TARGET_FILE:${PROJECT_NAME}>
-            COMMENT "Deploying Qt Libraries..."
-        )
-        add_custom_command(TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory 
-                $<TARGET_FILE_DIR:${PROJECT_NAME}>/sqldrivers
-            COMMAND ${CMAKE_COMMAND} -E copy
-                "${_qt_bin_dir}/../plugins/sqldrivers/qsqlpsql.dll"
-                $<TARGET_FILE_DIR:${PROJECT_NAME}>/sqldrivers/
-            COMMENT "Copying PostgreSQL driver..."
-        )
-    else()
-        message(WARNING "windeployqt not found!")
-    endif()
+if(NOT WIN32)
+    include(GNUInstallDirs)
+    install(TARGETS ${PROJECT_NAME}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+endif()
+
+
+# should be changed in the future
+if(WIN32 AND NOT CMAKE_CROSSCOMPILING)
+    
 endif()

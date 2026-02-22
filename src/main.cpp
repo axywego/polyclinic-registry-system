@@ -1,13 +1,16 @@
 #include <QCoreApplication>
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
 #include <QDebug>
-#include <QProcessEnvironment>
 #include <QLibrary>
+#include "core/EnvLoader.h"
+
 
 int main(int argc, char* argv[]) {
     QCoreApplication a(argc, argv);
+
+    
 
     // QLibrary lib("sqldrivers/qsqlpsql.dll");
     // if (!lib.load()) {
@@ -19,11 +22,20 @@ int main(int argc, char* argv[]) {
     //     lib.unload();
     // }
 
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    QString dbName = env.value("POSTGRES_DB");
-    QString dbUser = env.value("POSTGRES_USER");
-    QString dbPassword = env.value("POSTGRES_PASSWORD");
-    int dbPort = env.value("PG_PORT").toInt();
+    if(!loadEnv(".env")){
+        qDebug() << "pizdec";
+    }
+
+
+    QString dbName = getEnv("POSTGRES_DB");
+    QString dbUser = getEnv("POSTGRES_USER");
+    QString dbPassword = getEnv("POSTGRES_PASSWORD");
+    int dbPort = getEnv("PG_PORT").toInt();
+
+    qDebug() << dbName;
+    qDebug() << dbUser;
+    qDebug() << dbPassword;
+    qDebug() << dbPort;
 
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
     db.setHostName("localhost");
@@ -37,6 +49,6 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    qDebug() << "vse work\n";
-    return 0;
+    qDebug() << "vse work";
+    return a.exec();
 }
