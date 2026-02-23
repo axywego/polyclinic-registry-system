@@ -3,7 +3,7 @@ The information system for polyclinic registries was created as a coursework pro
 
 ### Dependencies
 - C++ 23 MinGW
-- Qt 6.10.1 or 6.10.2 (I don't give a f*ck what I use)
+- Qt 6.10.1 or 6.10.2 (I don't f*cking know what I use)
 - Docker Compose
 
 ### Building on Linux
