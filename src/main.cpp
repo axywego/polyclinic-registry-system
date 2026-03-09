@@ -1,54 +1,30 @@
 #include <QCoreApplication>
-#include <QtSql/QSqlDatabase>
-#include <QtSql/QSqlError>
-#include <QtSql/QSqlQuery>
 #include <QDebug>
 #include <QLibrary>
+
 #include "core/EnvLoader.h"
+#include "database/DatabaseManager.h"
 
 
 int main(int argc, char* argv[]) {
     QCoreApplication a(argc, argv);
 
-    
-
-    // QLibrary lib("sqldrivers/qsqlpsql.dll");
-    // if (!lib.load()) {
-    //     qDebug() << "!!! cannot load plugin !!!";
-    //     qDebug() << "error system:" << lib.errorString();
-    //     return -1;
-    // } else {
-    //     qDebug() << "success.";
-    //     lib.unload();
-    // }
-
     if(!loadEnv(".env")){
-        qDebug() << "pizdec";
+        qDebug() << "Cannot to load env.";
     }
 
+    const QString dbName = getEnv("POSTGRES_DB");
+    const QString dbUser = getEnv("POSTGRES_USER");
+    const QString dbPassword = getEnv("POSTGRES_PASSWORD");
+    const int dbPort = getEnv("PG_PORT").toInt();
 
-    QString dbName = getEnv("POSTGRES_DB");
-    QString dbUser = getEnv("POSTGRES_USER");
-    QString dbPassword = getEnv("POSTGRES_PASSWORD");
-    int dbPort = getEnv("PG_PORT").toInt();
-
-    qDebug() << dbName;
-    qDebug() << dbUser;
-    qDebug() << dbPassword;
-    qDebug() << dbPort;
-
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
-    db.setHostName("localhost");
-    db.setPort(dbPort);
-    db.setDatabaseName(dbName);
-    db.setUserName(dbUser);
-    db.setPassword(dbPassword);
-
-    if(!db.open()) {
-        qDebug() << "error connection: " << db.lastError().text();
-        return -1;
+    if(!DatabaseManager::instance().connect("localhost", dbPort, dbName, dbUser, dbPassword)) {
+        qDebug() << "Connection to database is successful.";
     }
 
-    qDebug() << "vse work";
+    qDebug() << (DatabaseManager::instance().isConnected() ? "заебись все работает" : "ммм хуета");
+
+    DatabaseManager::instance().disconnect();
+
     return a.exec();
 }

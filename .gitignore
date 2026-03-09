@@ -3,3 +3,6 @@
 **/*build*/
 **/*debug*/
 debug-build-run.sh
+old_needed.txt
+Dockerfile
+.dockerignore

@@ -5,7 +5,7 @@
             "name": "linux-debug",
             "displayName": "MinGW Debug (Linux)",
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/linux-debug-build",
+            "binaryDir": "${sourceDir}/linux-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_C_COMPILER": "gcc",
@@ -22,7 +22,7 @@
             "name": "msvc-debug",
             "displayName": "MSVC Debug",
             "generator": "Visual Studio 17 2022",
-            "binaryDir": "${sourceDir}/msvc-debug-build",
+            "binaryDir": "${sourceDir}/msvc-debug",
             "cacheVariables": {
                 "CMAKE_PREFIX_PATH": "C:\\Qt\\6.10.2\\msvc2022_64\\",
                 "CMAKE_BUILD_TYPE": "Debug"
