@@ -2,6 +2,7 @@ add_executable(polyclinic_tests
     main.cpp
     models/PolyclinicTest.cpp
     repositories/PolyclinicRepositoryTest.cpp
+    services/PolyclinicServiceTest.cpp
 )
 
 target_link_libraries(polyclinic_tests

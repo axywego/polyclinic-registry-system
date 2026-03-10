@@ -18,9 +18,14 @@ add_library(polyclinic_lib
     src/models/Polyclinic.h
     src/models/Polyclinic.cpp
     
+    src/repositories/criteria/Criteria.h
+    src/repositories/criteria/Criteria.cpp
+    src/repositories/criteria/CriteriaHelpers.h
+    src/repositories/criteria/CriteriaHelpers.cpp
+
     src/repositories/PolyclinicRepository.h
     src/repositories/PolyclinicRepository.cpp
-    
+
     src/services/PolyclinicService.h
     src/services/PolyclinicService.cpp
 )
