@@ -1,19 +1,19 @@
 #include <gtest/gtest.h>
-#include "../../src/services/PolyclinicService.h"
+#include "../../src/services/GenericService.h"
 #include "../../src/database/DatabaseManager.h"
 #include "../../src/core/EnvLoader.h"
 
-class PolyclinicServiceTest : public ::testing::Test {
+class GenericServiceTests : public ::testing::Test {
 protected:
-    PolyclinicService service;
+    GenericService<Polyclinic> service;
     
     void SetUp() override {
         loadEnv(".env");
 
-        const QString dbName = getEnv("POSTGRES_DB");
-        const QString dbUser = getEnv("POSTGRES_USER");
-        const QString dbPassword = getEnv("POSTGRES_PASSWORD");
-        const int dbPort = getEnv("PG_PORT").toInt();
+        const QString dbName = getEnv("POSTGRES_DB", "");
+        const QString dbUser = getEnv("POSTGRES_USER", "");
+        const QString dbPassword = getEnv("POSTGRES_PASSWORD", "");
+        const int dbPort = getEnv("PG_PORT", "").toInt();
 
         DatabaseManager::instance().connect("localhost", dbPort, dbName, dbUser, dbPassword);
     }
@@ -23,7 +23,7 @@ protected:
     }
 };
 
-TEST_F(PolyclinicServiceTest, AddPolyclinic_ReturnsTrue) {
+TEST_F(GenericServiceTests, AddPolyclinic_ReturnsTrue) {
     Polyclinic p;
     p.name = "дурка";
     p.address = "там где дурка";
@@ -32,7 +32,7 @@ TEST_F(PolyclinicServiceTest, AddPolyclinic_ReturnsTrue) {
     EXPECT_TRUE(service.add(p));
 }
 
-TEST_F(PolyclinicServiceTest, SearchByQueries_GetInfoAboutPolyclinic_Success) {
+TEST_F(GenericServiceTests, SearchByQueries_GetInfoAboutPolyclinic_Success) {
     const auto res = service.searchByQueries(Equals("name", "дурка"));
 
     EXPECT_TRUE(res.has_value());

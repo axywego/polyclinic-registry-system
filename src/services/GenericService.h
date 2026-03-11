@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../repositories/PolyclinicRepository.h"
+#include "../repositories/GenericRepository.h"
 #include "../repositories/criteria/CriteriaHelpers.h"
 #include "../database/DatabaseManager.h"
 #include <optional>
@@ -11,11 +11,12 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 
-class PolyclinicService {
+template<typename T>
+class GenericService {
 private:
-    PolyclinicRepository repo;
+    GenericRepository<T> repo;
 public:
-    bool add(Polyclinic& p);
+    bool add(T& p);
 
     bool remove(const int id);
 
@@ -32,7 +33,7 @@ public:
         @return optional vector of polyclinics
     */
     template<typename ...Args>
-    std::optional<QVector<Polyclinic>> searchByQueries(const Args& ...args) {
+    std::optional<QVector<T>> searchByQueries(const Args& ...args) {
         QVector<CriteriaPtr> criteria = { args... };
         
         QStringList whereParts;
@@ -50,7 +51,9 @@ public:
             index++;
         }
 
-        QString sql = "SELECT * FROM polyclinics ";
+        T tempModel;
+
+        QString sql = QString("SELECT * FROM %1 ").arg(tempModel.tableName());
         if(!whereParts.isEmpty()) {
             sql += "WHERE " + whereParts.join(" AND ");
         }
@@ -68,16 +71,13 @@ public:
             return std::nullopt;
         }
 
-        QVector<Polyclinic> res;
+        QVector<T> res;
         while(q.next()){
-            Polyclinic p;
+            T model;
 
-            p.id = q.value("id").toInt();
-            p.name = q.value("name").toString();
-            p.address = q.value("address").toString();
-            p.phoneNumber = q.value("phoneNumber").toString();
+            model.fromSqlRecord(q.record());
 
-            res.append(p);
+            res.append(model);
         }
 
         if(res.empty())
@@ -86,3 +86,5 @@ public:
         return res;
     }
 };
+
+// extern template class GenericService<Polyclinic>;

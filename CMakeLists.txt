@@ -15,6 +15,8 @@ add_library(polyclinic_lib
     src/database/DatabaseManager.h
     src/database/DatabaseManager.cpp
     
+    src/models/BaseModel.h
+    src/models/BaseModel.cpp
     src/models/Polyclinic.h
     src/models/Polyclinic.cpp
     
@@ -23,11 +25,11 @@ add_library(polyclinic_lib
     src/repositories/criteria/CriteriaHelpers.h
     src/repositories/criteria/CriteriaHelpers.cpp
 
-    src/repositories/PolyclinicRepository.h
-    src/repositories/PolyclinicRepository.cpp
+    src/repositories/GenericRepository.h
+    src/repositories/GenericRepository.cpp
 
-    src/services/PolyclinicService.h
-    src/services/PolyclinicService.cpp
+    src/services/GenericService.h
+    src/services/GenericService.cpp
 )
 
 target_include_directories(polyclinic_lib
