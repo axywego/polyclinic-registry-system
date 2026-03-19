@@ -3,7 +3,7 @@
 #include <optional>
 #include "BaseModel.h"
 
-class Polyclinic : public BaseModel {
+class Polyclinic final : public BaseModel {
 public:
     std::optional<int> id;
     QString name;

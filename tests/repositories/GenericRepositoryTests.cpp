@@ -42,3 +42,20 @@ TEST_F(GenericRepositoryTests, Polyclinic_Create_FindById_Delete_Success) {
     bool result = repo.remove(p.id.value());
     EXPECT_TRUE(result);
 }
+
+
+TEST_F(GenericRepositoryTests, SearchByQueries_GetInfoAboutPolyclinic_Success) {
+    const auto res = repo.searchByQueries(Equals("name", "дурка"));
+
+    EXPECT_TRUE(res.has_value());
+
+    const auto p = res.value()[0]; 
+
+    const auto finded = service.getInfo(p.id.value());
+    EXPECT_TRUE(finded.has_value());
+    EXPECT_TRUE(finded->contains("name"));
+    EXPECT_TRUE(finded->contains("address"));
+    EXPECT_TRUE(finded->contains("phoneNumber"));
+
+    EXPECT_TRUE(service.remove(finded.value()["id"].toInt()));
+}

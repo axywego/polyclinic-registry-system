@@ -2,9 +2,8 @@
 
 #include "../database/DatabaseManager.h"
 
-template<typename T>
+template<ModelType T>
 bool GenericRepository<T>::create(T& model) {
-    static_assert(std::is_base_of_v<BaseModel, T>, "T must inherit from BaseModel");
 
     auto& db = DatabaseManager::instance().getDatabase();
 
@@ -39,12 +38,12 @@ bool GenericRepository<T>::create(T& model) {
     return true;
 }
 
-template<typename T>
+template<ModelType T>
 bool GenericRepository<T>::update(const T& model) {
     return true;
 }
 
-template<typename T>
+template<ModelType T>
 std::optional<T> GenericRepository<T>::findById(const int id) const {
     static_assert(std::is_base_of_v<BaseModel, T>, "T must inherit from BaseModel");
 
@@ -66,7 +65,7 @@ std::optional<T> GenericRepository<T>::findById(const int id) const {
     return model;
 }
 
-template<typename T>
+template<ModelType T>
 QVector<T> GenericRepository<T>::getAll() const {
     QVector<T> models;
     auto& db = DatabaseManager::instance().getDatabase();
@@ -89,7 +88,7 @@ QVector<T> GenericRepository<T>::getAll() const {
     return models;
 }
 
-template<typename T>
+template<ModelType T>
 bool GenericRepository<T>::remove(const int id) {
     auto& db = DatabaseManager::instance().getDatabase();
 
