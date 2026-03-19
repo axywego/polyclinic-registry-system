@@ -2,6 +2,9 @@
 
 #include "../models/Polyclinic.h"
 #include "../repositories/criteria/CriteriaHelpers.h"
+#include "../database/DatabaseManager.h"
+#include <QtSql/QSqlQuery>
+#include <QtSql/QSqlError>
 
 template<ModelType T>
 class GenericRepository {

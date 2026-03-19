@@ -1,7 +1,5 @@
 #include "GenericRepository.h"
 
-#include "../database/DatabaseManager.h"
-
 template<ModelType T>
 bool GenericRepository<T>::create(T& model) {
 

@@ -5,6 +5,7 @@
 
 class GenericServiceTests : public ::testing::Test {
 protected:
+    GenericRepository<Polyclinic> repo;
     GenericService<Polyclinic> service;
     
     void SetUp() override {
@@ -30,4 +31,18 @@ TEST_F(GenericServiceTests, AddPolyclinic_ReturnsTrue) {
     p.phoneNumber = "телефон дурки";
 
     EXPECT_TRUE(service.add(p));
+}
+
+TEST_F(GenericServiceTests, GetInfoAboutPolyclinic_Success) {
+    const auto res = repo.searchByQueries(Equals("name", "дурка"));
+
+    const auto p = res.value()[0]; 
+
+    const auto finded = service.getInfo(p.id.value());
+    EXPECT_TRUE(finded.has_value());
+    EXPECT_TRUE(finded->contains("name"));
+    EXPECT_TRUE(finded->contains("address"));
+    EXPECT_TRUE(finded->contains("phoneNumber"));
+
+    EXPECT_TRUE(service.remove(finded.value()["id"].toInt()));
 }
