@@ -11,7 +11,14 @@ void Polyclinic::fromSqlRecord(const QSqlRecord& record) {
     phoneNumber = record.value("phoneNumber").toString();
 }
 
-QHash<QString, QVariant> Polyclinic::getFields() const {
+void Polyclinic::fromQVariantHash(const QVariantHash& map) {
+    id = map["id"].toInt();
+    name = map["name"].toString();
+    address = map["address"].toString();
+    phoneNumber = map["phoneNumber"].toString();
+}
+
+QVariantHash Polyclinic::getFields() const {
     QHash<QString, QVariant> map;
     if(id.has_value())
         map["id"] = id.value();

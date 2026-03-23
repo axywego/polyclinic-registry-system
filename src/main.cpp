@@ -1,13 +1,16 @@
-#include <QCoreApplication>
+#include <QtGui/QGuiApplication>
+#include <QtQml/QQmlApplicationEngine>
+#include <QtQml/QtQml>
 #include <QDebug>
-#include <QLibrary>
 
 #include "core/EnvLoader.h"
 #include "database/DatabaseManager.h"
+#include "services/GenericService.h"
+#include "PolyclinicServiceAdapter.h"
 
 
 int main(int argc, char* argv[]) {
-    QCoreApplication a(argc, argv);
+    QGuiApplication app(argc, argv);
 
     if(!loadEnv(".env")){
         qDebug() << "Cannot to load env.";
@@ -19,12 +22,32 @@ int main(int argc, char* argv[]) {
     const int dbPort = getEnv("PG_PORT").toInt();
 
     if(!DatabaseManager::instance().connect("localhost", dbPort, dbName, dbUser, dbPassword)) {
-        qDebug() << "Connection to database is successful.";
+        qDebug() << "Connection to database is failed";
+        return -1;
+    }
+    qDebug() << "Database connected";
+
+    auto* backend = new GenericService<Polyclinic>();
+    auto* adapter = new PolyclinicServiceAdapter(backend, &app);
+
+    QQmlApplicationEngine engine;
+
+    qmlRegisterSingletonInstance(
+        "Polyclinic.Services", 1, 0, "PolyclinicService", adapter
+    );
+
+    using namespace Qt::StringLiterals;
+    const QUrl url(u"qrc:/Polyclinic/UI/src/qml/Main.qml"_s);
+    engine.load(url);
+
+    if (engine.rootObjects().isEmpty()){
+        DatabaseManager::instance().disconnect();
+        return -1;
     }
 
-    qDebug() << (DatabaseManager::instance().isConnected() ? "заебись все работает" : "ммм хуета");
+    int exitCode = app.exec();
 
     DatabaseManager::instance().disconnect();
-
-    return a.exec();
+        
+    return exitCode;
 }

@@ -1,0 +1,26 @@
+#pragma once
+
+#include <QObject>
+#include <QString>
+#include <QVariant>
+#include <QVariantMap>
+#include <QHash>
+#include <optional>
+
+#include "services/GenericService.h"
+#include "models/@MODEL@.h"
+
+class @CLASS_NAME@ : public QObject {
+    Q_OBJECT
+private:
+    GenericService<@MODEL@>* m_service;
+public:
+    explicit @CLASS_NAME@(GenericService<@MODEL@>* service, QObject* parent = nullptr);
+    Q_INVOKABLE bool add(const QVariantHash& data);
+    Q_INVOKABLE bool remove(const int& id);
+    Q_INVOKABLE QVariantHash getInfo(const int& id);
+    Q_INVOKABLE QVariantList getAll();
+signals:
+    void errorOccurred(const QString&);
+    void dataChanged();
+};

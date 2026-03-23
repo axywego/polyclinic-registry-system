@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../core/common.h"
 #include "../models/Polyclinic.h"
 #include "../repositories/criteria/CriteriaHelpers.h"
 #include "../database/DatabaseManager.h"
@@ -26,7 +27,7 @@ public:
         QVector<CriteriaPtr> criteria = { args... };
         
         QStringList whereParts;
-        QHash<QString, QVariant> allParams;
+        QVariantHash allParams;
 
         int index = 0;
         for(const auto& criterion : criteria){

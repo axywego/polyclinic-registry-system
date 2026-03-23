@@ -9,6 +9,8 @@ bool GenericRepository<T>::create(T& model) {
     QStringList fieldsName, placeholders;
 
     for(auto it = fields.begin(); it != fields.end(); it++){
+        if(it.key() == "id") continue;
+
         fieldsName << it.key();
         placeholders << ":" + it.key();
     }
@@ -19,6 +21,8 @@ bool GenericRepository<T>::create(T& model) {
                                                                                 .arg(fieldsName.join(", "))
                                                                                 .arg(placeholders.join(", "));
 
+    qDebug() << "Create query: " << queryString;
+
     query.prepare(queryString);
 
     for(auto it = fields.begin(); it != fields.end(); it++){
@@ -27,6 +31,7 @@ bool GenericRepository<T>::create(T& model) {
 
     if(!query.exec()) {
         qCritical() << "PolyclinicRepository : cannot create : " << query.lastError().text();
+        return false;
     }
 
     if(query.next()){
@@ -38,12 +43,53 @@ bool GenericRepository<T>::create(T& model) {
 
 template<ModelType T>
 bool GenericRepository<T>::update(const T& model) {
+
+    auto& db = DatabaseManager::instance().getDatabase();
+
+    auto fields = model.getFields();
+    QStringList fieldsName, placeholders;
+
+    for(auto it = fields.begin(); it != fields.end(); it++){
+        if(it.key() == "id") continue;
+
+        fieldsName << it.key();
+        placeholders << ":" + it.key();
+    }
+
+    QSqlQuery query(db);
+
+    QString queryString = QString("UPDATE %1 SET").arg(model.tableName());
+
+    for(auto it_field = fieldsName.begin(), it_placeholder = placeholders.begin();
+        it_field != fieldsName.end() && it_placeholder != placeholders.end(); ) {
+        
+        queryString.append(QString(" %1 = %2,").arg(*it_field).arg(*it_placeholder));
+        ++it_field;
+        ++it_placeholder; 
+    }
+
+    queryString.remove(queryString.length() - 1, 1);
+    
+    queryString.append(QString(" WHERE id = %1").arg(model.id.value()));
+
+    qDebug() << "Update query: " << queryString;
+
+    query.prepare(queryString);
+
+    for(auto it = fields.begin(); it != fields.end(); it++){
+        query.bindValue(":" + it.key(), it.value());
+    }
+
+    if(!query.exec()) {
+        qCritical() << "PolyclinicRepository : cannot update : " << query.lastError().text();
+        return false;
+    }
+
     return true;
 }
 
 template<ModelType T>
 std::optional<T> GenericRepository<T>::findById(const int id) const {
-    static_assert(std::is_base_of_v<BaseModel, T>, "T must inherit from BaseModel");
 
     auto& db = DatabaseManager::instance().getDatabase();
     QSqlQuery query(db);

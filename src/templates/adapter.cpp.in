@@ -1,0 +1,38 @@
+#include "@CLASS_NAME@.h"
+
+@CLASS_NAME@::@CLASS_NAME@(GenericService<@MODEL@>* service, QObject* parent):
+        QObject(parent), m_service(service) { }
+
+bool @CLASS_NAME@::add(const QVariantHash& data) {
+    @MODEL@ obj;
+    obj.fromQVariantHash(data);
+    auto success = m_service->add(obj);
+    if(success) emit dataChanged();
+    return success;
+}
+
+bool @CLASS_NAME@::remove(const int& id) {
+    auto success = m_service->remove(id);
+    if(success) emit dataChanged();
+    return success;
+}
+
+QVariantHash @CLASS_NAME@::getInfo(const int& id) {
+    return m_service->getInfo(id).value_or(QVariantHash{});
+}
+
+QVariantList @CLASS_NAME@::getAll() {
+    QVariantList result;
+    
+    auto items = m_service->getAll();
+
+    if(!items.has_value()) return result;
+    
+    for (auto item : items.value()) {
+        QVariantHash data;
+        data = item.getFields();
+        
+        result.append(QVariant::fromValue(data));
+    }
+    return result;
+}

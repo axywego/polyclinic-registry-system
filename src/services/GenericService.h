@@ -15,16 +15,33 @@ class GenericService {
 private:
     GenericRepository<T> repo;
 public:
-    bool add(T& p);
+    bool add(T& model);
 
     bool remove(const int id);
+
+    template<typename ...Args>
+    requires(ConvertibleToCriteriaPtr<Args> && ...)
+    std::optional<QVector<T>> search(const Args& ...args) {
+        return repo.searchByQueries(args...);
+    }
+
+    template<typename ...Args>
+    requires(ConvertibleToCriteriaPtr<Args> && ...)
+    std::optional<T> searchFirst(const Args& ...args) {
+        auto opt = repo.searchByQueries(args...); 
+        if(!opt->isEmpty())
+            return opt->first();
+        return std::nullopt;
+    }
 
     /*
         @brief get info about polyclinic
         @param id id of polyclinic
         @return associative container that contains key-value [string, QVariant] or nullopt if cannot get info
     */
-    std::optional<QHash<QString, QVariant>> getInfo(const int id);
+    std::optional<QVariantHash> getInfo(const int id);
+
+    std::optional<QVector<T>> getAll() const;
 
 };
 

@@ -19,5 +19,7 @@ public:
 
     void fromSqlRecord(const QSqlRecord& record) override;
 
-    QHash<QString, QVariant> getFields() const override;
+    void fromQVariantHash(const QVariantHash& map) override;
+
+    QVariantHash getFields() const override;
 };
