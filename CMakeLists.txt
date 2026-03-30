@@ -103,8 +103,18 @@ qt_add_qml_module(${PROJECT_NAME}
     URI Polyclinic.UI
     VERSION 1.0
     RESOURCE_PREFIX "/"
-    QML_FILES
+    QML_FILES 
         src/qml/Main.qml
+
+        src/qml/screens/MainMenuScreen.qml
+        src/qml/screens/MainScreen.qml
+        src/qml/screens/PolyclinicSelectionScreen.qml
+        
+        src/qml/components/SidebarButton.qml
+        src/qml/components/Sidebar.qml
+        src/qml/components/Titlebar.qml
+
+        src/qml/pages/DashboardView.qml
 )
 
 if(NOT WIN32)

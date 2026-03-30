@@ -36,3 +36,19 @@ QVariantList @CLASS_NAME@::getAll() {
     }
     return result;
 }
+
+QVariantList @CLASS_NAME@::getSearchingByName(const QString& query) {
+    QVariantList result;
+    
+    auto items = m_service->search(Like("name", query));
+
+    if(!items.has_value()) return result;
+    
+    for (auto item : items.value()) {
+        QVariantHash data;
+        data = item.getFields();
+        
+        result.append(QVariant::fromValue(data));
+    }
+    return result;
+}

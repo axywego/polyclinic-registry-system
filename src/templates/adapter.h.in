@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE bool remove(const int& id);
     Q_INVOKABLE QVariantHash getInfo(const int& id);
     Q_INVOKABLE QVariantList getAll();
+    Q_INVOKABLE QVariantList getSearchingByName(const QString& query);
 signals:
     void errorOccurred(const QString&);
     void dataChanged();

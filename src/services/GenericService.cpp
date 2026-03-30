@@ -2,7 +2,7 @@
 
 template<ModelType T>
 bool GenericService<T>::add(T& model) {
-    return repo.create(model) != 1 ? true : false;
+    return repo.create(model);
 }
 
 template<ModelType T>

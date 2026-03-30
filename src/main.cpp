@@ -8,7 +8,6 @@
 #include "services/GenericService.h"
 #include "PolyclinicServiceAdapter.h"
 
-
 int main(int argc, char* argv[]) {
     QGuiApplication app(argc, argv);
 
