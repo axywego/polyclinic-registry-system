@@ -1,0 +1,24 @@
+#pragma once
+
+#include <QObject>
+#include <QString>
+#include <QVariant>
+#include <QVariantMap>
+#include <QHash>
+#include <optional>
+
+#include "services/ViewsService.h"
+#include "models/views/@VIEW@.h"
+
+class @CLASS_NAME@ : public QObject {
+    Q_OBJECT
+private:
+    ViewsService<@VIEW@>* m_service;
+public:
+    explicit @CLASS_NAME@(ViewsService<@VIEW@>* service, QObject* parent = nullptr);
+    Q_INVOKABLE QVariantList getAll();
+    Q_INVOKABLE QVariantList search(const QVariantList& conditions);
+signals:
+    void errorOccurred(const QString&);
+    void dataChanged();
+};

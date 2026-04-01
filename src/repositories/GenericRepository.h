@@ -1,11 +1,29 @@
 #pragma once
 
 #include "../core/common.h"
-#include "../models/Polyclinic.h"
 #include "../repositories/criteria/CriteriaHelpers.h"
 #include "../database/DatabaseManager.h"
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
+
+#include "../models/entities/Polyclinic.h"
+#include "../models/entities/Department.h"
+#include "../models/entities/Specialty.h"
+#include "../models/entities/Doctor.h"
+#include "../models/entities/Room.h"
+#include "../models/entities/Patient.h"
+#include "../models/entities/MedicalCard.h"
+#include "../models/entities/Schedule.h"
+#include "../models/entities/ScheduleException.h"
+#include "../models/entities/Disease.h"
+#include "../models/entities/Symptom.h"
+#include "../models/entities/SickLeave.h"
+#include "../models/entities/Appointment.h"
+#include "../models/entities/Visit.h"
+#include "../models/entities/VisitDiagnosis.h"
+#include "../models/entities/VisitSymptom.h"
+#include "../models/entities/Service.h"
+#include "../models/entities/ServiceAppointment.h"
 
 template<ModelType T>
 class GenericRepository {
@@ -17,63 +35,23 @@ public:
     bool remove(const int id);
 
     /* 
-        @brief Search by lambdas
+        @brief Search by criteria
+        @param criteriaVector QVector<CriteriaPtr>
+        @return optional vector of models
+    */
+    std::optional<QVector<T>> searchByQueries(const QVector<CriteriaPtr>& criteriaVector);
+
+    /* 
+        @brief Search by criteria
         @param args CriteriaPtr
-        @return optional vector of polyclinics
+        @return optional vector of models
     */
     template<typename ...Args>
     requires(ConvertibleToCriteriaPtr<Args> && ...)
     std::optional<QVector<T>> searchByQueries(const Args& ...args) {
         QVector<CriteriaPtr> criteria = { args... };
-        
-        QStringList whereParts;
-        QVariantHash allParams;
 
-        int index = 0;
-        for(const auto& criterion : criteria){
-            whereParts << criterion->toSql(index);
-
-            auto params = criterion->getParams(index);
-            for(auto it = params.begin(); it != params.end(); ++it) {
-                allParams.insert(it.key(), it.value());
-            }
-
-            index++;
-        }
-
-        T tempModel;
-
-        QString sql = QString("SELECT * FROM %1 ").arg(tempModel.tableName());
-        if(!whereParts.isEmpty()) {
-            sql += "WHERE " + whereParts.join(" AND ");
-        }
-
-        QSqlQuery q(DatabaseManager::instance().getDatabase());
-
-        q.prepare(sql);
-
-        for(auto it = allParams.begin(); it != allParams.end(); ++it){
-            q.bindValue(it.key(), it.value());
-        }
-
-        if(!q.exec()){
-            qDebug() << "SQL Error: " << q.lastError().text();
-            return std::nullopt;
-        }
-
-        QVector<T> res;
-        while(q.next()){
-            T model;
-
-            model.fromSqlRecord(q.record());
-
-            res.append(model);
-        }
-
-        if(res.empty())
-            return std::nullopt;
-
-        return res;
+        return searchByQueries(criteria);
     }
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../repositories/GenericRepository.h"
+#include "../repositories/ViewsRepository.h"
 #include "../database/DatabaseManager.h"
 #include <optional>
 #include <QHash>
@@ -10,15 +10,11 @@
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlError>
 
-template<ModelType T>
-class GenericService {
+template<ViewType T>
+class ViewsService {
 private:
-    GenericRepository<T> repo;
+    ViewsRepository<T> repo;
 public:
-    bool add(T& model);
-
-    bool remove(const int id);
-
     std::optional<QVector<T>> search(const QVector<CriteriaPtr>& criteriaVector);
 
     template<typename ...Args>

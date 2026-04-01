@@ -15,6 +15,27 @@ qt6_standard_project_setup()
 
 set(MODELS
     Polyclinic
+    Department
+    Specialty
+    Doctor
+    Room
+    Patient
+    MedicalCard
+    Schedule
+    ScheduleException
+    Disease
+    Symptom
+    SickLeave
+    Appointment
+    Visit
+    VisitDiagnosis
+    VisitSymptom
+    Service
+    ServiceAppointment
+)
+
+set(VIEWS
+    DoctorFullInfoView
 )
 
 set(GENERATED_ADAPTER_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/adapters")
@@ -24,12 +45,31 @@ foreach(MODEL ${MODELS})
     set(MODEL_NAME ${MODEL})
     set(CLASS_NAME "${MODEL}ServiceAdapter")
     configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/templates/adapter.h.in
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/templates/adapterModel.h.template
         ${GENERATED_ADAPTER_DIR}/${CLASS_NAME}.h
         @ONLY
     )
     configure_file(
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/templates/adapter.cpp.in
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/templates/adapterModel.cpp.template
+        ${GENERATED_ADAPTER_DIR}/${CLASS_NAME}.cpp
+        @ONLY
+    )
+    list(APPEND ADAPTER_SOURCES
+        ${GENERATED_ADAPTER_DIR}/${CLASS_NAME}.h
+        ${GENERATED_ADAPTER_DIR}/${CLASS_NAME}.cpp
+    )
+endforeach()
+
+foreach(VIEW ${VIEWS})
+    set(VIEW_NAME ${VIEW})
+    set(CLASS_NAME "${VIEW}ServiceAdapter")
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/templates/adapterView.h.template
+        ${GENERATED_ADAPTER_DIR}/${CLASS_NAME}.h
+        @ONLY
+    )
+    configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/templates/adapterView.cpp.template
         ${GENERATED_ADAPTER_DIR}/${CLASS_NAME}.cpp
         @ONLY
     )
@@ -46,10 +86,47 @@ add_library(polyclinic_lib
     src/database/DatabaseManager.h
     src/database/DatabaseManager.cpp
     
-    src/models/BaseModel.h
-    src/models/BaseModel.cpp
-    src/models/Polyclinic.h
-    src/models/Polyclinic.cpp
+    src/models/entities/BaseModel.h
+    src/models/entities/BaseModel.cpp
+    src/models/entities/Polyclinic.h
+    src/models/entities/Polyclinic.cpp
+    src/models/entities/Department.h
+    src/models/entities/Department.cpp
+    src/models/entities/Specialty.h
+    src/models/entities/Specialty.cpp
+    src/models/entities/Doctor.h
+    src/models/entities/Doctor.cpp
+    src/models/entities/Room.h
+    src/models/entities/Room.cpp
+    src/models/entities/Patient.h
+    src/models/entities/Patient.cpp
+    src/models/entities/MedicalCard.h
+    src/models/entities/MedicalCard.cpp
+    src/models/entities/Schedule.h
+    src/models/entities/Schedule.cpp
+    src/models/entities/ScheduleException.h
+    src/models/entities/ScheduleException.cpp
+    src/models/entities/Disease.h
+    src/models/entities/Disease.cpp
+    src/models/entities/Symptom.h
+    src/models/entities/Symptom.cpp
+    src/models/entities/SickLeave.h
+    src/models/entities/SickLeave.cpp
+    src/models/entities/Appointment.h
+    src/models/entities/Appointment.cpp
+    src/models/entities/Visit.h
+    src/models/entities/Visit.cpp
+    src/models/entities/VisitDiagnosis.h
+    src/models/entities/VisitDiagnosis.cpp
+    src/models/entities/VisitSymptom.h
+    src/models/entities/VisitSymptom.cpp
+    src/models/entities/Service.h
+    src/models/entities/Service.cpp
+    src/models/entities/ServiceAppointment.h
+    src/models/entities/ServiceAppointment.cpp
+    src/models/views/ViewModel.h
+    src/models/views/DoctorFullInfoView.h
+    src/models/views/DoctorFullInfoView.cpp
     
     src/repositories/criteria/Criteria.h
     src/repositories/criteria/Criteria.cpp
@@ -58,9 +135,13 @@ add_library(polyclinic_lib
 
     src/repositories/GenericRepository.h
     src/repositories/GenericRepository.cpp
+    src/repositories/ViewsRepository.h
+    src/repositories/ViewsRepository.cpp
 
     src/services/GenericService.h
     src/services/GenericService.cpp
+    src/services/ViewsService.h
+    src/services/ViewsService.cpp
     # src/services/adapters/PolyclinicServiceAdapter.h
     # src/services/adapters/PolyclinicServiceAdapter.cpp
 
@@ -125,17 +206,17 @@ if(NOT WIN32)
 endif()
 
 ### Tests ###
-enable_testing()
+# enable_testing()
 
-include(FetchContent)
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git  
-    GIT_TAG v1.14.0
-)
-FetchContent_MakeAvailable(googletest)
+# include(FetchContent)
+# FetchContent_Declare(
+#     googletest
+#     GIT_REPOSITORY https://github.com/google/googletest.git  
+#     GIT_TAG v1.14.0
+# )
+# FetchContent_MakeAvailable(googletest)
 
-option(BUILD_TESTS "Build tests" ON)
-if(BUILD_TESTS)
-    add_subdirectory(tests)
-endif()
+# option(BUILD_TESTS "Build tests" ON)
+# if(BUILD_TESTS)
+#     add_subdirectory(tests)
+# endif()

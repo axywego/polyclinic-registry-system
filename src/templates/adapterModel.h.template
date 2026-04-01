@@ -8,7 +8,7 @@
 #include <optional>
 
 #include "services/GenericService.h"
-#include "models/@MODEL@.h"
+#include "models/entities/@MODEL@.h"
 
 class @CLASS_NAME@ : public QObject {
     Q_OBJECT
@@ -21,6 +21,12 @@ public:
     Q_INVOKABLE QVariantHash getInfo(const int& id);
     Q_INVOKABLE QVariantList getAll();
     Q_INVOKABLE QVariantList getSearchingByName(const QString& query);
+
+    /*
+        that's my masterpiece =)
+        in qml we have function seatchAdvanced( {"field": "...", "op": "...", "value": "..."}, ...)
+    */
+    Q_INVOKABLE QVariantList search(const QVariantList& conditions);
 signals:
     void errorOccurred(const QString&);
     void dataChanged();

@@ -70,7 +70,7 @@ Rectangle {
 
                 onClicked: {
                     stackView.push("MainScreen.qml", {
-                        "idPolyclinic": modelData.id,
+                        "idPolyclinic": modelData.id_polyclinic,
                         "namePolyclinic": modelData.name
                     })
                 }
@@ -86,17 +86,14 @@ Rectangle {
     }
 
     function loadClinics() {
-        console.log("Load data...");
         var clinics = PolyclinicService.getAll();
         clinicsList.model = clinics;
-        console.log("Load rows:", clinics.length);
     }
 
     Component.onCompleted: {
         loadClinics();
 
         PolyclinicService.dataChanged.connect(() => {
-            console.log("Data has been changed, updating the list");
             loadClinics();
         });
     }

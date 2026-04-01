@@ -6,6 +6,8 @@ import Polyclinic.Services 1.0
 import Polyclinic.UI 1.0 
 
 Rectangle {
+    id: root
+
     objectName: "mainScreen"
 
     property int idPolyclinic: 0
@@ -34,7 +36,9 @@ Rectangle {
                 Layout.fillHeight: true
                 currentIndex: sidebar.currentIndex
 
-                DashboardView { }
+                DashboardView {
+                    idPolyclinic: root.idPolyclinic
+                }
             }
         }
         

@@ -88,6 +88,58 @@ bool GenericRepository<T>::update(const T& model) {
     return true;
 }
 
+template <ModelType T>
+std::optional<QVector<T>> GenericRepository<T>::searchByQueries(const QVector<CriteriaPtr>& criteriaVector) {
+    QStringList whereParts;
+    QVariantHash allParams;
+
+    int index = 0;
+    for(const auto& criterion : criteriaVector){
+        whereParts << criterion->toSql(index);
+
+        auto params = criterion->getParams(index);
+        for(auto it = params.begin(); it != params.end(); ++it) {
+            allParams.insert(it.key(), it.value());
+        }
+
+        index++;
+    }
+
+    T tempModel;
+
+    QString sql = QString("SELECT * FROM %1 ").arg(tempModel.tableName());
+    if(!whereParts.isEmpty()) {
+        sql += "WHERE " + whereParts.join(" AND ");
+    }
+
+    QSqlQuery q(DatabaseManager::instance().getDatabase());
+
+    q.prepare(sql);
+
+    for(auto it = allParams.begin(); it != allParams.end(); ++it){
+        q.bindValue(it.key(), it.value());
+    }
+
+    if(!q.exec()){
+        qDebug() << "SQL Error: " << q.lastError().text();
+        return std::nullopt;
+    }
+
+    QVector<T> res;
+    while(q.next()){
+        T model;
+
+        model.fromSqlRecord(q.record());
+
+        res.append(model);
+    }
+
+    if(res.empty())
+        return std::nullopt;
+
+    return res;
+}
+
 template<ModelType T>
 std::optional<T> GenericRepository<T>::findById(const int id) const {
 
@@ -154,3 +206,20 @@ bool GenericRepository<T>::remove(const int id) {
 }
 
 template class GenericRepository<Polyclinic>;
+template class GenericRepository<Department>;
+template class GenericRepository<Specialty>;
+template class GenericRepository<Doctor>;
+template class GenericRepository<Room>;
+template class GenericRepository<Patient>;
+template class GenericRepository<MedicalCard>;
+template class GenericRepository<Schedule>;
+template class GenericRepository<ScheduleException>;
+template class GenericRepository<Disease>;
+template class GenericRepository<Symptom>;
+template class GenericRepository<SickLeave>;
+template class GenericRepository<Appointment>;
+template class GenericRepository<Visit>;
+template class GenericRepository<VisitDiagnosis>;
+template class GenericRepository<VisitSymptom>;
+template class GenericRepository<Service>;
+template class GenericRepository<ServiceAppointment>;

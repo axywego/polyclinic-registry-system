@@ -1,0 +1,44 @@
+#include "@CLASS_NAME@.h"
+
+@CLASS_NAME@::@CLASS_NAME@(ViewsService<@VIEW@>* service, QObject* parent):
+        QObject(parent), m_service(service) { }
+
+QVariantList @CLASS_NAME@::getAll() {
+    QVariantList result;
+    
+    auto items = m_service->getAll();
+
+    if(!items.has_value()) return result;
+    
+    for (auto item : items.value()) {
+        QVariantHash data;
+        data = item.getFields();
+        
+        result.append(QVariant::fromValue(data));
+    }
+    return result;
+}
+
+QVariantList @CLASS_NAME@::search(const QVariantList& conditions) {
+    QVariantList result;
+    QVector<CriteriaPtr> criteriaVector;
+
+    for (const auto& cond : conditions) {
+        QVariantMap filter = cond.toMap();
+        QString field = filter["field"].toString();
+        QString op = filter["operator"].toString();
+        QString value = filter["value"].toString();
+
+        if (op == "like") criteriaVector.push_back(Like(field, value));
+        else if (op == "eq") criteriaVector.push_back(Equals(field, value));
+        else if (op == "gt") criteriaVector.push_back(GreaterThan(field, value));
+    }
+
+    auto items = m_service->search(criteriaVector);
+    if (!items.has_value()) return result;
+
+    for (const auto& item : items.value()) {
+        result.append(QVariant::fromValue(item.getFields()));
+    }
+    return result;
+}

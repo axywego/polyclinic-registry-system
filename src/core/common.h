@@ -1,9 +1,9 @@
-#include <expected>
+// #include <expected>
 
-enum class SqlError {
-    KeyAlreadyExists, // Dublicate key value
-    UnknownError 
-};
+// // enum class SqlError {
+// //     KeyAlreadyExists, // Dublicate key value
+// //     UnknownError 
+// // };
 
-template<typename T>
-using SqlResult = std::expected<T, SqlError>;
+// // template<typename T>
+// // using SqlResult = std::expected<T, SqlError>;

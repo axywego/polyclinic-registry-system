@@ -6,7 +6,27 @@
 #include "core/EnvLoader.h"
 #include "database/DatabaseManager.h"
 #include "services/GenericService.h"
+
 #include "PolyclinicServiceAdapter.h"
+#include "DepartmentServiceAdapter.h"
+#include "SpecialtyServiceAdapter.h"
+#include "DoctorServiceAdapter.h"
+#include "RoomServiceAdapter.h"
+#include "PatientServiceAdapter.h"
+#include "MedicalCardServiceAdapter.h"
+#include "ScheduleServiceAdapter.h"
+#include "ScheduleExceptionServiceAdapter.h"
+#include "DiseaseServiceAdapter.h"
+#include "SymptomServiceAdapter.h"
+#include "SickLeaveServiceAdapter.h"
+#include "AppointmentServiceAdapter.h"
+#include "VisitServiceAdapter.h"
+#include "VisitDiagnosisServiceAdapter.h"
+#include "VisitSymptomServiceAdapter.h"
+#include "ServiceServiceAdapter.h"
+#include "ServiceAppointmentServiceAdapter.h"
+
+#include "DoctorFullInfoViewServiceAdapter.h"
 
 int main(int argc, char* argv[]) {
     QGuiApplication app(argc, argv);
@@ -26,14 +46,68 @@ int main(int argc, char* argv[]) {
     }
     qDebug() << "Database connected";
 
-    auto* backend = new GenericService<Polyclinic>();
-    auto* adapter = new PolyclinicServiceAdapter(backend, &app);
+    auto* backendPolyclinic = new GenericService<Polyclinic>();
+    auto* backendDepartment = new GenericService<Department>();
+    auto* backendSpecialty = new GenericService<Specialty>();
+    auto* backendDoctor = new GenericService<Doctor>();
+    auto* backendRoom = new GenericService<Room>();
+    auto* backendPatient = new GenericService<Patient>();
+    auto* backendMedicalCard = new GenericService<MedicalCard>();
+    auto* backendSchedule = new GenericService<Schedule>();
+    auto* backendScheduleException = new GenericService<ScheduleException>();
+    auto* backendDisease = new GenericService<Disease>();
+    auto* backendSymptom = new GenericService<Symptom>();
+    auto* backendSickLeave = new GenericService<SickLeave>();
+    auto* backendAppointment = new GenericService<Appointment>();
+    auto* backendVisit = new GenericService<Visit>();
+    auto* backendVisitDiagnosis = new GenericService<VisitDiagnosis>();
+    auto* backendVisitSymptom = new GenericService<VisitSymptom>();
+    auto* backendService = new GenericService<Service>();
+    auto* backendServiceAppointment = new GenericService<ServiceAppointment>();
+    auto* backendDoctorFullInfoView = new ViewsService<DoctorFullInfoView>();
+
+    auto* adapterPolyclinic = new PolyclinicServiceAdapter(backendPolyclinic, &app);
+    auto* adapterDepartment = new DepartmentServiceAdapter(backendDepartment, &app);
+    auto* adapterSpecialty = new SpecialtyServiceAdapter(backendSpecialty, &app);
+    auto* adapterDoctor = new DoctorServiceAdapter(backendDoctor, &app);
+    auto* adapterRoom = new RoomServiceAdapter(backendRoom, &app);
+    auto* adapterPatient = new PatientServiceAdapter(backendPatient, &app);
+    auto* adapterMedicalCard = new MedicalCardServiceAdapter(backendMedicalCard, &app);
+    auto* adapterSchedule = new ScheduleServiceAdapter(backendSchedule, &app);
+    auto* adapterScheduleException = new ScheduleExceptionServiceAdapter(backendScheduleException, &app);
+    auto* adapterDisease = new DiseaseServiceAdapter(backendDisease, &app);
+    auto* adapterSymptom = new SymptomServiceAdapter(backendSymptom, &app);
+    auto* adapterSickLeave = new SickLeaveServiceAdapter(backendSickLeave, &app);
+    auto* adapterAppointment = new AppointmentServiceAdapter(backendAppointment, &app);
+    auto* adapterVisit = new VisitServiceAdapter(backendVisit, &app);
+    auto* adapterVisitDiagnosis = new VisitDiagnosisServiceAdapter(backendVisitDiagnosis, &app);
+    auto* adapterVisitSymptom = new VisitSymptomServiceAdapter(backendVisitSymptom, &app);
+    auto* adapterService = new ServiceServiceAdapter(backendService, &app);
+    auto* adapterServiceAppointment = new ServiceAppointmentServiceAdapter(backendServiceAppointment, &app);
+    auto* adapterDoctorFullInfoView = new DoctorFullInfoViewServiceAdapter(backendDoctorFullInfoView, &app);
 
     QQmlApplicationEngine engine;
 
-    qmlRegisterSingletonInstance(
-        "Polyclinic.Services", 1, 0, "PolyclinicService", adapter
-    );
+    qmlRegisterSingletonInstance("Polyclinic.Services", 1, 0, "PolyclinicService", adapterPolyclinic);
+    qmlRegisterSingletonInstance("Department.Services", 1, 0, "DepartmentService", adapterDepartment);
+    qmlRegisterSingletonInstance("Specialty.Services", 1, 0, "SpecialtyService", adapterSpecialty);
+    qmlRegisterSingletonInstance("Doctor.Services", 1, 0, "DoctorService", adapterDoctor);
+    qmlRegisterSingletonInstance("Room.Services", 1, 0, "RoomService", adapterRoom);
+    qmlRegisterSingletonInstance("Patient.Services", 1, 0, "PatientService", adapterPatient);
+    qmlRegisterSingletonInstance("MedicalCard.Services", 1, 0, "MedicalCardService", adapterMedicalCard);
+    qmlRegisterSingletonInstance("Schedule.Services", 1, 0, "ScheduleService", adapterSchedule);
+    qmlRegisterSingletonInstance("ScheduleException.Services", 1, 0, "ScheduleExceptionService", adapterScheduleException);
+    qmlRegisterSingletonInstance("Disease.Services", 1, 0, "DiseaseService", adapterDisease);
+    qmlRegisterSingletonInstance("Symptom.Services", 1, 0, "SymptomService", adapterSymptom);
+    qmlRegisterSingletonInstance("SickLeave.Services", 1, 0, "SickLeaveService", adapterSickLeave);
+    qmlRegisterSingletonInstance("Appointment.Services", 1, 0, "AppointmentService", adapterAppointment);
+    qmlRegisterSingletonInstance("Visit.Services", 1, 0, "VisitService", adapterVisit);
+    qmlRegisterSingletonInstance("VisitDiagnosis.Services", 1, 0, "VisitDiagnosisService", adapterVisitDiagnosis);
+    qmlRegisterSingletonInstance("VisitSymptom.Services", 1, 0, "VisitSymptomService", adapterVisitSymptom);
+    qmlRegisterSingletonInstance("Service.Services", 1, 0, "ServiceService", adapterService);
+    qmlRegisterSingletonInstance("ServiceAppointment.Services", 1, 0, "ServiceAppointmentService", adapterServiceAppointment);
+    qmlRegisterSingletonInstance("DoctorFullInfoView.Services", 1, 0, "DoctorFullInfoViewService", adapterDoctorFullInfoView);
+
 
     using namespace Qt::StringLiterals;
     const QUrl url(u"qrc:/Polyclinic/UI/src/qml/Main.qml"_s);
