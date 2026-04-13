@@ -1,8 +1,11 @@
 #pragma once
 
 #include <optional>
-#include "BaseModel.h"
+#include <QDateTime>
+#include <QString>
 #include <QDate>
+
+#include "BaseModel.h"
 
 class Patient final : public BaseModel {
 public:
@@ -12,12 +15,10 @@ public:
     QString address;
     QString phone;
     QString passport_data;
+    std::optional<int> id_district;
 
     Patient() = default;
-
-    Patient(int id, QString full_name, QDate birth_date, QString address, QString phone, QString passport_data) :
-        id(id), full_name(full_name), birth_date(birth_date), address(address), phone(phone), passport_data(passport_data) {}
-
+    
     QString tableName() const override;
     void fromSqlRecord(const QSqlRecord& record) override;
     void fromQVariantHash(const QVariantHash& map) override;

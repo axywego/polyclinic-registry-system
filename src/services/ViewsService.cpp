@@ -13,3 +13,4 @@ std::optional<QVector<T>> ViewsService<T>::getAll() const {
 }
 
 template class ViewsService<DoctorFullInfoView>;
+template class ViewsService<AppointmentFullInfoView>;

@@ -47,3 +47,10 @@ template class GenericService<VisitDiagnosis>;
 template class GenericService<VisitSymptom>;
 template class GenericService<Service>;
 template class GenericService<ServiceAppointment>;
+
+template class GenericService<AppointmentTicket>;
+template class GenericService<District>;
+template class GenericService<MedicalDocument>;
+template class GenericService<Registrar>;
+template class GenericService<SickLeaveRegister>;
+template class GenericService<Street>;

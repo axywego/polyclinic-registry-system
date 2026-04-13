@@ -7,6 +7,9 @@
 static QMap<QString, QString> envMap;
 
 bool loadEnv(const QString& path){
+    qDebug() << "[EnvLoader] Trying to load:" << path;
+    qDebug() << "[EnvLoader] File exists:" << QFile::exists(path);
+
     QFile file(path);
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){

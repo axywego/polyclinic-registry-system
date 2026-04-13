@@ -1,27 +1,24 @@
 #pragma once
 
 #include <optional>
+#include <QDateTime>
+#include <QString>
+
 #include "BaseModel.h"
 
 class Doctor final : public BaseModel {
 public:
     std::optional<int> id;
-    QString fullName;
-    QString phoneNumber;
-
-    // fk
+    QString full_name;
+    QString phone_number;
     int id_specialty;
+    int id_department;
+    std::optional<int> id_district;
 
     Doctor() = default;
-
-    Doctor(int id, QString fullName, QString phoneNumber, int id_specialty) : 
-        id(id), fullName(fullName), phoneNumber(phoneNumber), id_specialty(id_specialty) {}
-
+    
     QString tableName() const override;
-
     void fromSqlRecord(const QSqlRecord& record) override;
-
     void fromQVariantHash(const QVariantHash& map) override;
-
     QVariantHash getFields() const override;
 };

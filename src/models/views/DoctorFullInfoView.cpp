@@ -1,7 +1,7 @@
 #include "DoctorFullInfoView.h"
 
 QString DoctorFullInfoView::viewName() const {
-    return "view_doctors_full";
+    return "view_doctors_full_info";
 }
 
 void DoctorFullInfoView::fromSqlRecord(const QSqlRecord& record) {

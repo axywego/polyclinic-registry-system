@@ -1,6 +1,9 @@
 #pragma once
 
 #include <optional>
+#include <QDateTime>
+#include <QString>
+
 #include "BaseModel.h"
 
 class Symptom final : public BaseModel {
@@ -10,10 +13,7 @@ public:
     QString description;
 
     Symptom() = default;
-
-    Symptom(int id, QString name, QString description) :
-        id(id), name(name), description(description) {}
-
+    
     QString tableName() const override;
     void fromSqlRecord(const QSqlRecord& record) override;
     void fromQVariantHash(const QVariantHash& map) override;

@@ -1,4 +1,3 @@
-// Room.cpp
 #include "Room.h"
 
 QString Room::tableName() const {
@@ -6,15 +5,15 @@ QString Room::tableName() const {
 }
 
 void Room::fromSqlRecord(const QSqlRecord& record) {
-    id = record.value("id_room").toInt();
-    number = record.value("number").toInt();
+    id = record.value("id").toInt();
+    number = record.value("number").toString();
     floor = record.value("floor").toInt();
     id_department = record.value("id_department").toInt();
 }
 
 void Room::fromQVariantHash(const QVariantHash& map) {
-    id = map["id_room"].toInt();
-    number = map["number"].toInt();
+    id = map["id"].toInt();
+    number = map["number"].toString();
     floor = map["floor"].toInt();
     id_department = map["id_department"].toInt();
 }
@@ -22,7 +21,7 @@ void Room::fromQVariantHash(const QVariantHash& map) {
 QVariantHash Room::getFields() const {
     QVariantHash map;
     if(id.has_value())
-        map["id_room"] = id.value();
+        map["id"] = id.value();
     map["number"] = number;
     map["floor"] = floor;
     map["id_department"] = id_department;

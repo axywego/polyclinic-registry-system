@@ -25,6 +25,13 @@
 #include "../models/entities/Service.h"
 #include "../models/entities/ServiceAppointment.h"
 
+#include "../models/entities/AppointmentTicket.h"
+#include "../models/entities/District.h"
+#include "../models/entities/MedicalDocument.h"
+#include "../models/entities/Registrar.h"
+#include "../models/entities/SickLeaveRegister.h"
+#include "../models/entities/Street.h"
+
 template<ModelType T>
 class GenericRepository {
 public:

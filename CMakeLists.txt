@@ -32,10 +32,17 @@ set(MODELS
     VisitSymptom
     Service
     ServiceAppointment
+    AppointmentTicket
+    District
+    MedicalDocument
+    Registrar
+    SickLeaveRegister
+    Street
 )
 
 set(VIEWS
     DoctorFullInfoView
+    AppointmentFullInfoView
 )
 
 set(GENERATED_ADAPTER_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/adapters")
@@ -87,7 +94,6 @@ add_library(polyclinic_lib
     src/database/DatabaseManager.cpp
     
     src/models/entities/BaseModel.h
-    src/models/entities/BaseModel.cpp
     src/models/entities/Polyclinic.h
     src/models/entities/Polyclinic.cpp
     src/models/entities/Department.h
@@ -124,9 +130,25 @@ add_library(polyclinic_lib
     src/models/entities/Service.cpp
     src/models/entities/ServiceAppointment.h
     src/models/entities/ServiceAppointment.cpp
+
+    src/models/entities/AppointmentTicket.h
+    src/models/entities/AppointmentTicket.cpp
+    src/models/entities/District.h
+    src/models/entities/District.cpp
+    src/models/entities/MedicalDocument.h
+    src/models/entities/MedicalDocument.cpp
+    src/models/entities/Registrar.h
+    src/models/entities/Registrar.cpp
+    src/models/entities/SickLeaveRegister.h
+    src/models/entities/SickLeaveRegister.cpp
+    src/models/entities/Street.h
+    src/models/entities/Street.cpp
+
     src/models/views/ViewModel.h
     src/models/views/DoctorFullInfoView.h
     src/models/views/DoctorFullInfoView.cpp
+    src/models/views/AppointmentFullInfoView.h
+    src/models/views/AppointmentFullInfoView.cpp
     
     src/repositories/criteria/Criteria.h
     src/repositories/criteria/Criteria.cpp
@@ -142,6 +164,9 @@ add_library(polyclinic_lib
     src/services/GenericService.cpp
     src/services/ViewsService.h
     src/services/ViewsService.cpp
+
+    src/adapters/UtilsAdapter.h
+    src/adapters/UtilsAdapter.cpp
     # src/services/adapters/PolyclinicServiceAdapter.h
     # src/services/adapters/PolyclinicServiceAdapter.cpp
 
@@ -169,6 +194,7 @@ target_link_libraries(polyclinic_lib
 
 qt_add_executable(${PROJECT_NAME}
     src/main.cpp
+    src/resources.qrc
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -184,12 +210,12 @@ qt_add_qml_module(${PROJECT_NAME}
     URI Polyclinic.UI
     VERSION 1.0
     RESOURCE_PREFIX "/"
+
     QML_FILES 
         src/qml/Main.qml
 
         src/qml/screens/MainMenuScreen.qml
         src/qml/screens/MainScreen.qml
-        src/qml/screens/PolyclinicSelectionScreen.qml
         
         src/qml/components/SidebarButton.qml
         src/qml/components/Sidebar.qml

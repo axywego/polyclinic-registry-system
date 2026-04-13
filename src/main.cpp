@@ -26,7 +26,17 @@
 #include "ServiceServiceAdapter.h"
 #include "ServiceAppointmentServiceAdapter.h"
 
+#include "AppointmentTicketServiceAdapter.h"
+#include "DistrictServiceAdapter.h"
+#include "MedicalDocumentServiceAdapter.h"
+#include "RegistrarServiceAdapter.h"
+#include "SickLeaveRegisterServiceAdapter.h"
+#include "StreetServiceAdapter.h"
+
+#include "adapters/UtilsAdapter.h"
+
 #include "DoctorFullInfoViewServiceAdapter.h"
+#include "AppointmentFullInfoViewServiceAdapter.h"
 
 int main(int argc, char* argv[]) {
     QGuiApplication app(argc, argv);
@@ -64,7 +74,16 @@ int main(int argc, char* argv[]) {
     auto* backendVisitSymptom = new GenericService<VisitSymptom>();
     auto* backendService = new GenericService<Service>();
     auto* backendServiceAppointment = new GenericService<ServiceAppointment>();
+
+    auto* backendAppointmentTicket = new GenericService<AppointmentTicket>();
+    auto* backendDistrict = new GenericService<District>();
+    auto* backendMedicalDocument = new GenericService<MedicalDocument>();
+    auto* backendRegistrar = new GenericService<Registrar>();
+    auto* backendSickLeaveRegister = new GenericService<SickLeaveRegister>();
+    auto* backendStreet = new GenericService<Street>();
+
     auto* backendDoctorFullInfoView = new ViewsService<DoctorFullInfoView>();
+    auto* backendAppointmentFullInfoView = new ViewsService<AppointmentFullInfoView>();
 
     auto* adapterPolyclinic = new PolyclinicServiceAdapter(backendPolyclinic, &app);
     auto* adapterDepartment = new DepartmentServiceAdapter(backendDepartment, &app);
@@ -84,7 +103,18 @@ int main(int argc, char* argv[]) {
     auto* adapterVisitSymptom = new VisitSymptomServiceAdapter(backendVisitSymptom, &app);
     auto* adapterService = new ServiceServiceAdapter(backendService, &app);
     auto* adapterServiceAppointment = new ServiceAppointmentServiceAdapter(backendServiceAppointment, &app);
+
+    auto* adapterAppointmentTicket = new AppointmentTicketServiceAdapter(backendAppointmentTicket, &app);
+    auto* adapterDistrict = new DistrictServiceAdapter(backendDistrict, &app);
+    auto* adapterMedicalDocument = new MedicalDocumentServiceAdapter(backendMedicalDocument, &app);
+    auto* adapterRegistrar = new RegistrarServiceAdapter(backendRegistrar, &app);
+    auto* adapterSickLeaveRegister = new SickLeaveRegisterServiceAdapter(backendSickLeaveRegister, &app);
+    auto* adapterStreet = new StreetServiceAdapter(backendStreet, &app);
+
+    auto* adapterUtils = new UtilsAdapter(&app);
+
     auto* adapterDoctorFullInfoView = new DoctorFullInfoViewServiceAdapter(backendDoctorFullInfoView, &app);
+    auto* adapterAppointmentFullInfoView = new AppointmentFullInfoViewServiceAdapter(backendAppointmentFullInfoView, &app);
 
     QQmlApplicationEngine engine;
 
@@ -106,7 +136,18 @@ int main(int argc, char* argv[]) {
     qmlRegisterSingletonInstance("VisitSymptom.Services", 1, 0, "VisitSymptomService", adapterVisitSymptom);
     qmlRegisterSingletonInstance("Service.Services", 1, 0, "ServiceService", adapterService);
     qmlRegisterSingletonInstance("ServiceAppointment.Services", 1, 0, "ServiceAppointmentService", adapterServiceAppointment);
+
+    qmlRegisterSingletonInstance("AppointmentTicket.Services", 1, 0, "AppointmentTicketService", adapterAppointmentTicket);
+    qmlRegisterSingletonInstance("District.Services", 1, 0, "DistrictService", adapterDistrict);
+    qmlRegisterSingletonInstance("MedicalDocument.Services", 1, 0, "MedicalDocumentService", adapterMedicalDocument);
+    qmlRegisterSingletonInstance("Registrar.Services", 1, 0, "RegistrarService", adapterRegistrar);
+    qmlRegisterSingletonInstance("SickLeaveRegister.Services", 1, 0, "SickLeaveRegisterService", adapterSickLeaveRegister);
+    qmlRegisterSingletonInstance("Street.Services", 1, 0, "StreetService", adapterStreet);
+
+    qmlRegisterSingletonInstance("Utils", 1, 0, "Utils", adapterUtils);
+
     qmlRegisterSingletonInstance("DoctorFullInfoView.Services", 1, 0, "DoctorFullInfoViewService", adapterDoctorFullInfoView);
+    qmlRegisterSingletonInstance("AppointmentFullInfoView.Services", 1, 0, "AppointmentFullInfoViewService", adapterAppointmentFullInfoView);
 
 
     using namespace Qt::StringLiterals;

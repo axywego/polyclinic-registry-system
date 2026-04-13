@@ -5,22 +5,22 @@ QString Department::tableName() const {
 }
 
 void Department::fromSqlRecord(const QSqlRecord& record) {
-    id = record.value("id_department").toInt();
+    id = record.value("id").toInt();
     name = record.value("name").toString();
-    id_polyclinic = record.value("id_polyclinic").toInt();
+    id_clinic = record.value("id_clinic").toInt();
 }
 
 void Department::fromQVariantHash(const QVariantHash& map) {
-    id = map["id_department"].toInt();
+    id = map["id"].toInt();
     name = map["name"].toString();
-    id_polyclinic = map["id_polyclinic"].toInt();
+    id_clinic = map["id_clinic"].toInt();
 }
 
 QVariantHash Department::getFields() const {
-    QHash<QString, QVariant> map;
+    QVariantHash map;
     if(id.has_value())
-        map["id_department"] = id.value();
+        map["id"] = id.value();
     map["name"] = name;
-    map["id_polyclinic"] = id_polyclinic;
+    map["id_clinic"] = id_clinic;
     return map;
 }

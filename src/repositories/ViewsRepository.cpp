@@ -76,3 +76,4 @@ QVector<T> ViewsRepository<T>::getAll() const {
 }
 
 template class ViewsRepository<DoctorFullInfoView>;
+template class ViewsRepository<AppointmentFullInfoView>;

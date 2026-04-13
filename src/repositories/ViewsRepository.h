@@ -7,6 +7,7 @@
 #include <QtSql/QSqlError>
 
 #include "../models/views/DoctorFullInfoView.h"
+#include "../models/views/AppointmentFullInfoView.h"
 
 template<ViewType T>
 class ViewsRepository {

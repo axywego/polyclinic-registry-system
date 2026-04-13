@@ -1,9 +1,11 @@
 #pragma once
 
 #include <optional>
-#include "BaseModel.h"
+#include <QDateTime>
+#include <QString>
 #include <QTime>
-#include <QDate>
+
+#include "BaseModel.h"
 
 class Schedule final : public BaseModel {
 public:
@@ -14,15 +16,11 @@ public:
     int id_room;
     int id_doctor;
     QDate valid_from;
-    QDate valid_to;
+    std::optional<QDate> valid_to;
+    int max_patients;
 
     Schedule() = default;
-
-    Schedule(int id, int day_of_week, QTime start_time, QTime end_time, 
-             int id_room, int id_doctor, QDate valid_from, QDate valid_to) :
-        id(id), day_of_week(day_of_week), start_time(start_time), end_time(end_time),
-        id_room(id_room), id_doctor(id_doctor), valid_from(valid_from), valid_to(valid_to) {}
-
+    
     QString tableName() const override;
     void fromSqlRecord(const QSqlRecord& record) override;
     void fromQVariantHash(const QVariantHash& map) override;

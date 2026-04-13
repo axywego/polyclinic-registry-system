@@ -116,14 +116,19 @@ std::optional<QVector<T>> GenericRepository<T>::searchByQueries(const QVector<Cr
 
     q.prepare(sql);
 
+    // qDebug() << "Search By Queries Sql: " << sql;
+
     for(auto it = allParams.begin(); it != allParams.end(); ++it){
         q.bindValue(it.key(), it.value());
+        // qDebug() << "key: " << it.key() << " | value: " << it.value();
     }
 
     if(!q.exec()){
         qDebug() << "SQL Error: " << q.lastError().text();
         return std::nullopt;
     }
+
+    // qDebug() << "\n";
 
     QVector<T> res;
     while(q.next()){
@@ -223,3 +228,10 @@ template class GenericRepository<VisitDiagnosis>;
 template class GenericRepository<VisitSymptom>;
 template class GenericRepository<Service>;
 template class GenericRepository<ServiceAppointment>;
+
+template class GenericRepository<AppointmentTicket>;
+template class GenericRepository<District>;
+template class GenericRepository<MedicalDocument>;
+template class GenericRepository<Registrar>;
+template class GenericRepository<SickLeaveRegister>;
+template class GenericRepository<Street>;
