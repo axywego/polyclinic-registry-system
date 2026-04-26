@@ -11,7 +11,6 @@ void SickLeave::fromSqlRecord(const QSqlRecord& record) {
     id_doctor = record.value("id_doctor").toInt();
     opened_at = record.value("opened_at").toDateTime();
     closed_at = record.value("closed_at").isNull() ? std::optional<QDateTime>() : record.value("closed_at").toDateTime();
-    status = record.value("status").toString();
     initial_diagnosis = record.value("initial_diagnosis").toString();
     id_initial_diagnosis = record.value("id_initial_diagnosis").toInt();
     final_diagnosis = record.value("final_diagnosis").isNull() ? std::optional<QString>() : record.value("final_diagnosis").toString();
@@ -25,7 +24,6 @@ void SickLeave::fromQVariantHash(const QVariantHash& map) {
     id_doctor = map["id_doctor"].toInt();
     opened_at = map["opened_at"].toDateTime();
     closed_at = map["closed_at"].isNull() ? std::optional<QDateTime>() : map["closed_at"].toDateTime();
-    status = map["status"].toString();
     initial_diagnosis = map["initial_diagnosis"].toString();
     id_initial_diagnosis = map["id_initial_diagnosis"].toInt();
     final_diagnosis = map["final_diagnosis"].isNull() ? std::optional<QString>() : map["final_diagnosis"].toString();
@@ -42,7 +40,6 @@ QVariantHash SickLeave::getFields() const {
     map["opened_at"] = opened_at;
     if(closed_at.has_value())
         map["closed_at"] = closed_at.value();
-    map["status"] = status;
     map["initial_diagnosis"] = initial_diagnosis;
     map["id_initial_diagnosis"] = id_initial_diagnosis;
     if(final_diagnosis.has_value())

@@ -11,6 +11,7 @@ void Registrar::fromSqlRecord(const QSqlRecord& record) {
     phone_number = record.value("phone_number").toString();
     login = record.value("login").toString();
     password_hash = record.value("password_hash").toString();
+    role = record.value("role").toString();
     id_polyclinic = record.value("id_polyclinic").toInt();
     is_active = record.value("is_active").toBool();
 }
@@ -22,6 +23,7 @@ void Registrar::fromQVariantHash(const QVariantHash& map) {
     phone_number = map["phone_number"].toString();
     login = map["login"].toString();
     password_hash = map["password_hash"].toString();
+    role = map["role"].toString();
     id_polyclinic = map["id_polyclinic"].toInt();
     is_active = map["is_active"].toBool();
 }
@@ -35,6 +37,7 @@ QVariantHash Registrar::getFields() const {
     map["phone_number"] = phone_number;
     map["login"] = login;
     map["password_hash"] = password_hash;
+    map["role"] = role;
     map["id_polyclinic"] = id_polyclinic;
     map["is_active"] = is_active;
     return map;

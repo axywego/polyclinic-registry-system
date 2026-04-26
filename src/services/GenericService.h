@@ -17,6 +17,8 @@ private:
 public:
     bool add(T& model);
 
+    bool update(T& model);
+
     bool remove(const int id);
 
     std::optional<QVector<T>> search(const QVector<CriteriaPtr>& criteriaVector);

@@ -14,7 +14,6 @@ public:
     int id_doctor;
     QDateTime opened_at;
     std::optional<QDateTime> closed_at;
-    QString status;
     QString initial_diagnosis;
     int id_initial_diagnosis;
     std::optional<QString> final_diagnosis;

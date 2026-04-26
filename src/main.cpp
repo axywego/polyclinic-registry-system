@@ -37,6 +37,10 @@
 
 #include "DoctorFullInfoViewServiceAdapter.h"
 #include "AppointmentFullInfoViewServiceAdapter.h"
+#include "PatientsByDistrictViewServiceAdapter.h"
+#include "MedicalDocumentFullInfoViewServiceAdapter.h"
+#include "SickLeaveFullInfoViewServiceAdapter.h"
+#include "SickLeaveRegisterFullViewServiceAdapter.h"
 
 int main(int argc, char* argv[]) {
     QGuiApplication app(argc, argv);
@@ -56,6 +60,7 @@ int main(int argc, char* argv[]) {
     }
     qDebug() << "Database connected";
 
+    // tables
     auto* backendPolyclinic = new GenericService<Polyclinic>();
     auto* backendDepartment = new GenericService<Department>();
     auto* backendSpecialty = new GenericService<Specialty>();
@@ -82,8 +87,13 @@ int main(int argc, char* argv[]) {
     auto* backendSickLeaveRegister = new GenericService<SickLeaveRegister>();
     auto* backendStreet = new GenericService<Street>();
 
+    // views
     auto* backendDoctorFullInfoView = new ViewsService<DoctorFullInfoView>();
     auto* backendAppointmentFullInfoView = new ViewsService<AppointmentFullInfoView>();
+    auto* backendPatientsByDistrictView = new ViewsService<PatientsByDistrictView>();
+    auto* backendMedicalDocumentFullInfoView = new ViewsService<MedicalDocumentFullInfoView>();
+    auto* backendSickLeaveFullInfoView = new ViewsService<SickLeaveFullInfoView>();
+    auto* backendSickLeaveRegisterFullView = new ViewsService<SickLeaveRegisterFullView>();
 
     auto* adapterPolyclinic = new PolyclinicServiceAdapter(backendPolyclinic, &app);
     auto* adapterDepartment = new DepartmentServiceAdapter(backendDepartment, &app);
@@ -115,7 +125,11 @@ int main(int argc, char* argv[]) {
 
     auto* adapterDoctorFullInfoView = new DoctorFullInfoViewServiceAdapter(backendDoctorFullInfoView, &app);
     auto* adapterAppointmentFullInfoView = new AppointmentFullInfoViewServiceAdapter(backendAppointmentFullInfoView, &app);
-
+    auto* adapterPatientsByDistrictView = new PatientsByDistrictViewServiceAdapter(backendPatientsByDistrictView, &app);
+    auto* adapterMedicalDocumentFullInfoView = new MedicalDocumentFullInfoViewServiceAdapter(backendMedicalDocumentFullInfoView, &app);
+    auto* adapterSickLeaveFullInfoView = new SickLeaveFullInfoViewServiceAdapter(backendSickLeaveFullInfoView, &app);
+    auto* adapterSickLeaveRegisterFullView = new SickLeaveRegisterFullViewServiceAdapter(backendSickLeaveRegisterFullView, &app);
+    
     QQmlApplicationEngine engine;
 
     qmlRegisterSingletonInstance("Polyclinic.Services", 1, 0, "PolyclinicService", adapterPolyclinic);
@@ -148,7 +162,10 @@ int main(int argc, char* argv[]) {
 
     qmlRegisterSingletonInstance("DoctorFullInfoView.Services", 1, 0, "DoctorFullInfoViewService", adapterDoctorFullInfoView);
     qmlRegisterSingletonInstance("AppointmentFullInfoView.Services", 1, 0, "AppointmentFullInfoViewService", adapterAppointmentFullInfoView);
-
+    qmlRegisterSingletonInstance("PatientsByDistrictView.Services", 1, 0, "PatientsByDistrictViewService", adapterPatientsByDistrictView);
+    qmlRegisterSingletonInstance("MedicalDocumentFullInfoView.Services", 1, 0, "MedicalDocumentFullInfoViewService", adapterMedicalDocumentFullInfoView);
+    qmlRegisterSingletonInstance("SickLeaveFullInfoView.Services", 1, 0, "SickLeaveFullInfoViewService", adapterSickLeaveFullInfoView);
+    qmlRegisterSingletonInstance("SickLeaveRegisterFullView.Services", 1, 0, "SickLeaveRegisterFullViewService", adapterSickLeaveRegisterFullView);
 
     using namespace Qt::StringLiterals;
     const QUrl url(u"qrc:/Polyclinic/UI/src/qml/Main.qml"_s);

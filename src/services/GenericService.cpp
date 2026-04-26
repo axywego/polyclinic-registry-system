@@ -6,6 +6,11 @@ bool GenericService<T>::add(T& model) {
 }
 
 template<ModelType T>
+bool GenericService<T>::update(T& model) {
+    return repo.update(model);
+}
+
+template<ModelType T>
 bool GenericService<T>::remove(const int id) {
     return repo.remove(id);
 }

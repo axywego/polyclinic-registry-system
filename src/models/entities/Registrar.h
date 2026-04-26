@@ -14,6 +14,7 @@ public:
     QString phone_number;
     QString login;
     QString password_hash;
+    QString role;
     int id_polyclinic;
     bool is_active;
 

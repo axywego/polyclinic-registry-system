@@ -43,6 +43,10 @@ set(MODELS
 set(VIEWS
     DoctorFullInfoView
     AppointmentFullInfoView
+    PatientsByDistrictView
+    MedicalDocumentFullInfoView
+    SickLeaveFullInfoView
+    SickLeaveRegisterFullView
 )
 
 set(GENERATED_ADAPTER_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated/adapters")
@@ -130,7 +134,6 @@ add_library(polyclinic_lib
     src/models/entities/Service.cpp
     src/models/entities/ServiceAppointment.h
     src/models/entities/ServiceAppointment.cpp
-
     src/models/entities/AppointmentTicket.h
     src/models/entities/AppointmentTicket.cpp
     src/models/entities/District.h
@@ -149,6 +152,14 @@ add_library(polyclinic_lib
     src/models/views/DoctorFullInfoView.cpp
     src/models/views/AppointmentFullInfoView.h
     src/models/views/AppointmentFullInfoView.cpp
+    src/models/views/PatientsByDistrictView.h
+    src/models/views/PatientsByDistrictView.cpp
+    src/models/views/MedicalDocumentFullInfoView.h
+    src/models/views/MedicalDocumentFullInfoView.cpp
+    src/models/views/SickLeaveFullInfoView.h
+    src/models/views/SickLeaveFullInfoView.cpp
+    src/models/views/SickLeaveRegisterFullView.h
+    src/models/views/SickLeaveRegisterFullView.cpp
     
     src/repositories/criteria/Criteria.h
     src/repositories/criteria/Criteria.cpp
@@ -220,8 +231,23 @@ qt_add_qml_module(${PROJECT_NAME}
         src/qml/components/SidebarButton.qml
         src/qml/components/Sidebar.qml
         src/qml/components/Titlebar.qml
+        src/qml/components/StatsCard.qml
+        src/qml/components/QuickActionButton.qml
+        src/qml/components/DatePicker.qml
+        src/qml/components/StatsBadge.qml
+        src/qml/components/TableHeaderCell.qml
+        src/qml/components/PatientDelegate.qml
+        src/qml/components/DoctorDelegate.qml
 
         src/qml/pages/DashboardView.qml
+        src/qml/pages/AppointmentsJournalView.qml
+        src/qml/pages/AppointmentView.qml
+        src/qml/pages/CardIndexView.qml
+        # src/qml/pages/HomeCallsView.qml
+        # src/qml/pages/ReportsView.qml
+        # src/qml/pages/SickLeavesView.qml
+        src/qml/pages/DocumentsView.qml
+        src/qml/pages/AdminView.qml
 )
 
 if(NOT WIN32)

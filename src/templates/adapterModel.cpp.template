@@ -11,6 +11,14 @@ bool @CLASS_NAME@::add(const QVariantHash& data) {
     return success;
 }
 
+bool @CLASS_NAME@::update(const QVariantHash& data) {
+    @MODEL@ obj;
+    obj.fromQVariantHash(data);
+    auto success = m_service->update(obj);
+    if(success) emit dataChanged();
+    return success;
+}
+
 bool @CLASS_NAME@::remove(const int& id) {
     auto success = m_service->remove(id);
     if(success) emit dataChanged();

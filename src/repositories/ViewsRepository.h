@@ -8,6 +8,12 @@
 
 #include "../models/views/DoctorFullInfoView.h"
 #include "../models/views/AppointmentFullInfoView.h"
+#include "../models/views/PatientsByDistrictView.h"
+#include "../models/views/MedicalDocumentFullInfoView.h"
+#include "../models/views/MedicalDocumentFullInfoView.h"
+#include "../models/views/SickLeaveFullInfoView.h"
+#include "../models/views/SickLeaveRegisterFullView.h"
+
 
 template<ViewType T>
 class ViewsRepository {
